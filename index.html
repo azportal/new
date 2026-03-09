@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xoş Gəldiniz</title>
+    <title>AzProWap - Xoş Gəldiniz</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,10 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -21,101 +23,136 @@
             padding: 20px;
         }
 
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px 40px;
-            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            padding: 80px 50px;
+            max-width: 700px;
             width: 100%;
             text-align: center;
-            animation: slideIn 0.6s ease-out;
+            animation: slideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-50px) scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .greeting {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 1s ease-out;
+            letter-spacing: -1px;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .time-section {
+        .cards-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            border-radius: 20px;
+            padding: 35px 25px;
+            color: white;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .time-card {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 25px;
-            color: white;
         }
 
-        .time-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .time-display {
-            font-size: 2.2rem;
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-        }
-
-        .date-section {
+        .date-card {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            border-radius: 15px;
-            padding: 30px;
-            color: white;
         }
 
-        .date-label {
-            font-size: 0.9rem;
+        .card-label {
+            font-size: 0.85rem;
             opacity: 0.9;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .date-display {
-            font-size: 1.8rem;
+            letter-spacing: 2px;
             font-weight: 600;
         }
 
+        .card-display {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .date-card .card-display {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            margin: 30px auto;
+            border-radius: 2px;
+        }
+
         .footer {
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: #999;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            margin: 8px 0;
         }
 
         .footer a {
             color: #667eea;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             transition: color 0.3s ease;
         }
 
@@ -123,58 +160,92 @@
             color: #764ba2;
         }
 
-        @media (max-width: 600px) {
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 700px) {
             .container {
-                padding: 40px 25px;
+                padding: 50px 30px;
             }
 
             .greeting {
-                font-size: 1.8rem;
+                font-size: 2.5rem;
             }
 
-            .time-display {
-                font-size: 1.6rem;
+            .cards-wrapper {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
-            .date-display {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .container {
+            .card {
                 padding: 30px 20px;
             }
 
-            .greeting {
-                font-size: 1.5rem;
+            .card-display {
+                font-size: 1.8rem;
             }
 
-            .time-display {
+            .date-card .card-display {
                 font-size: 1.4rem;
             }
 
-            .date-display {
-                font-size: 1.1rem;
+            .logo {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .greeting {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 25px 15px;
+            }
+
+            .card-display {
+                font-size: 1.5rem;
+            }
+
+            .date-card .card-display {
+                font-size: 1.2rem;
+            }
+
+            .card-label {
+                font-size: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="logo">🌟</div>
         <div class="greeting" id="greeting">Sabahınız xeyir</div>
         
-        <div class="time-section">
-            <div class="time-label">Bakı Saatı</div>
-            <div class="time-display" id="time">00:00:00</div>
+        <div class="divider"></div>
+
+        <div class="cards-wrapper">
+            <div class="card time-card">
+                <div class="card-label"><span class="emoji">⏰</span>Bakı Saatı</div>
+                <div class="card-display" id="time">00:00:00</div>
+            </div>
+            
+            <div class="card date-card">
+                <div class="card-label"><span class="emoji">📅</span>Cari Tarix</div>
+                <div class="card-display" id="date">1 Yanvar 2024</div>
+            </div>
         </div>
-        
-        <div class="date-section">
-            <div class="date-label">Cari Tarix</div>
-            <div class="date-display" id="date">1 Yanvar 2024</div>
-        </div>
+
+        <div class="divider"></div>
         
         <div class="footer">
+            <p>✨ <strong>AzProWap</strong> - Müasır Web Saytı</p>
             <p>GitLab Pages ilə yayımlanmışdır</p>
         </div>
     </div>
@@ -191,18 +262,15 @@
         ];
 
         function updateTime() {
-            // Bakı saatı (UTC+4)
             const now = new Date();
             const bakuTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Baku' }));
             
-            // Saat, dəqiqə, saniyə
             const hours = String(bakuTime.getHours()).padStart(2, '0');
             const minutes = String(bakuTime.getMinutes()).padStart(2, '0');
             const seconds = String(bakuTime.getSeconds()).padStart(2, '0');
             
             document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
             
-            // Dinamik salamlaşma
             const hour = bakuTime.getHours();
             let greeting = 'Axşamınız xeyir';
             
@@ -227,16 +295,11 @@
             document.getElementById('date').textContent = `${dayName}, ${day} ${month} ${year}`;
         }
 
-        // İlk yükləmə
         updateTime();
         updateDate();
         
-        // Hər saniyə yenilə
         setInterval(updateTime, 1000);
-        
-        // Hər dəqiqə tarixi yenilə
         setInterval(updateDate, 60000);
     </script>
 </body>
 </html>
-
