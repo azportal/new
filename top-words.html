@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="7KYCp6OVjOrZB_TTBfOI8X-d6JSOlyjRtp3NDhplsCY" />
+    <meta name="google-site-verification" content="xd5sf4oz2nt6" />
+    <meta name="yandex-verification" content="077145342cf7f4c9" />
+    <meta name="description" content="Ən populyar 100,000+ SEO sözləri. Top sözlər siyahısı. APK indir, Android proqram, oyun və daha çox.">
+    <meta name="keywords" content="top sözlər, populyar sözlər, seo sözləri, apk indir, android apk, mod apk, premium apk">
+    <title>Top Sözlər | AzProWap - 100,000+ SEO Sözləri</title>
+    <link rel="canonical" href="https://azportal.github.io/new/top-words.html">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🌟 AzProWap</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Ana səhifə</a></li>
+                <li><a href="top-words.html" class="active">Top Sözlər</a></li>
+                <li><a href="categories.html">Kateqoriyalar</a></li>
+                <li><a href="daily-word.html">Günün Sözü</a></li>
+                <li><a href="about.html">Haqqımızda</a></li>
+                <li><a href="contact.html">Əlaqə</a></li>
+                <li><a href="admin.html" style="color: #f093fb;">🔐 Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <h1 style="text-align: center; color: #667eea; margin-bottom: 40px;">Ən Populyar Sözlər</h1>
+            <div class="keywords-grid" id="top-keywords-list" style="grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));">
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Azmedia Pro tərəfindən bütün hüquqlar qorunur</p>
+                <p>Müəllif: <strong>Azmedia</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedKeywords = localStorage.getItem('keywords');
+            
+            if (savedKeywords) {
+                const keywords = JSON.parse(savedKeywords);
+                renderKeywords(keywords);
+            } else {
+                fetch('data/keywords.json')
+                    .then(response => response.json())
+                    .then(data => renderKeywords(data.keywords));
+            }
+        });
+
+        function renderKeywords(keywords) {
+            const container = document.getElementById('top-keywords-list');
+            container.innerHTML = keywords.map((keyword, index) => `
+                <div class="keyword-card">
+                    <a href="keyword.html?id=${keyword.id}">${keyword.text}</a>
+                    <div class="keyword-rank">#${index + 1} Populyar</div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
