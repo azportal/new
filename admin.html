@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="7KYCp6OVjOrZB_TTBfOI8X-d6JSOlyjRtp3NDhplsCY" />
+    <meta name="google-site-verification" content="xd5sf4oz2nt6" />
+    <meta name="yandex-verification" content="077145342cf7f4c9" />
+    <meta name="description" content="AzProWap Admin Panel">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin Panel | AzProWap</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Poppins','Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px}.login-container{background:white;padding:40px;border-radius:15px;box-shadow:0 10px 40px rgba(0,0,0,0.2);max-width:400px;width:100%;margin:100px auto 0}.login-container h1{color:#667eea;margin-bottom:30px;font-size:1.8rem}.form-group{margin-bottom:20px;text-align:left}.form-group label{display:block;margin-bottom:8px;color:#333;font-weight:600}.form-group input,.form-group textarea{width:100%;padding:12px 15px;border:2px solid #e0e0e0;border-radius:8px;font-size:1rem;transition:border-color 0.3s}.form-group input:focus,.form-group textarea:focus{outline:0;border-color:#667eea}.login-btn,.save-btn{padding:12px 30px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:transform 0.3s}.login-btn:hover,.save-btn:hover{transform:translateY(-2px)}.error-message{color:#f5576c;margin-top:15px;display:none}.admin-panel{display:none;max-width:1400px;margin:0 auto}.admin-header{background:white;padding:20px;border-radius:10px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.1)}.admin-header h1{color:#667eea}.logout-btn{padding:10px 20px;background:#f5576c;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600}.admin-content{background:white;padding:30px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}.tabs{display:flex;gap:10px;margin-bottom:30px;border-bottom:2px solid #e0e0e0;flex-wrap:wrap}.tab-btn{padding:12px 20px;background:0;border:none;cursor:pointer;font-weight:600;color:#999;border-bottom:3px solid transparent;transition:all 0.3s}.tab-btn.active{color:#667eea;border-bottom-color:#667eea}.tab-content{display:none}.tab-content.active{display:block}.success-message{background:#4facfe;color:white;padding:15px;border-radius:8px;margin-bottom:20px;display:none}.item{background:#f8f9fa;padding:15px;border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}.delete-btn{padding:8px 15px;background:#f5576c;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600}.add-form{background:#f8f9fa;padding:20px;border-radius:8px;margin-bottom:20px}h2{color:#667eea;margin-bottom:20px}h3{color:#333;margin-top:20px;margin-bottom:15px}.items-list{max-height:500px;overflow-y:auto}.item-text{flex:1}.item-text strong{display:block;margin-bottom:5px}.item-text small{color:#666}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:30px}.stat-card{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px;border-radius:10px;text-align:center}.stat-card h3{color:white;margin:0}.stat-card .number{font-size:2rem;font-weight:700;margin:10px 0}
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h1>🔐 Admin Panel</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="password">Şifrə:</label>
+                <input type="password" id="password" placeholder="Şifrəni daxil edin" required>
+            </div>
+            <button type="submit" class="login-btn">Daxil Ol</button>
+            <div class="error-message" id="errorMessage">❌ Şifrə yanlışdır!</div>
+        </form>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h1>🌟 AzProWap Admin Panel</h1>
+            <button class="logout-btn" id="logoutBtn">Çıxış</button>
+        </div>
+
+        <div class="admin-content">
+            <div class="success-message" id="successMessage">✅ Dəyişikliklər uğurla saxlanıldı!</div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Günün Sözləri</h3>
+                    <div class="number" id="wordsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>SEO Sözləri</h3>
+                    <div class="number" id="keywordsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Kateqoriyalar</h3>
+                    <div class="number" id="categoriesCount">0</div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+                <button class="tab-btn" data-tab="daily-words">📝 Günün Sözləri</button>
+                <button class="tab-btn" data-tab="keywords">🔍 SEO Sözləri</button>
+                <button class="tab-btn" data-tab="categories">📂 Kateqoriyalar</button>
+                <button class="tab-btn" data-tab="ads">📢 Reklam</button>
+            </div>
+
+            <div class="tab-content active" id="dashboard">
+                <h2>📊 Dashboard</h2>
+                <p>Xoş gəldiniz! Burada saytınızın bütün məlumatlarını idarə edə bilərsiniz.</p>
+                <ul style="margin-top:20px;line-height:2">
+                    <li>✅ Günün sözlərini əlavə/sil</li>
+                    <li>✅ SEO sözlərini idarə et</li>
+                    <li>✅ Kateqoriyaları redaktə et</li>
+                    <li>✅ Reklam kodlarını əlavə et</li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="daily-words">
+                <h2>📝 Günün Sözləri</h2>
+                <div class="add-form">
+                    <h3>➕ Yeni Söz Əlavə Et</h3>
+                    <div class="form-group">
+                        <label for="newWordText">Söz:</label>
+                        <textarea id="newWordText" placeholder="Motivasyon sözünü yazın..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="newWordAuthor">Müəllif:</label>
+                        <input type="text" id="newWordAuthor" placeholder="Müəllifin adı">
+                    </div>
+                    <button class="save-btn" id="addWordBtn">Əlavə Et</button>
+                </div>
+                <h3>📋 Mövcud Sözlər</h3>
+                <div class="items-list" id="wordsList"></div>
+            </div>
+
+            <div class="tab-content" id="keywords">
+                <h2>🔍 SEO Sözləri</h2>
+                <div class="add-form">
+                    <h3>➕ Yeni SEO Sözü Əlavə Et</h3>
+                    <div class="form-group">
+                        <label for="newKeywordText">Söz:</label>
+                        <input type="text" id="newKeywordText" placeholder="SEO sözünü yazın...">
+                    </div>
+                    <div class="form-group">
+                        <label for="newKeywordCategory">Kateqoriya:</label>
+                        <input type="text" id="newKeywordCategory" placeholder="Kateqoriya">
+                    </div>
+                    <div class="form-group">
+                        <label for="newKeywordVolume">Axtarış Həcmi:</label>
+                        <input type="number" id="newKeywordVolume" placeholder="Həcm">
+                    </div>
+                    <button class="save-btn" id="addKeywordBtn">Əlavə Et</button>
+                </div>
+                <h3>📋 Mövcud Sözlər</h3>
+                <div class="items-list" id="keywordsList"></div>
+            </div>
+
+            <div class="tab-content" id="categories">
+                <h2>📂 Kateqoriyalar</h2>
+                <div class="add-form">
+                    <h3>➕ Yeni Kateqoriya Əlavə Et</h3>
+                    <div class="form-group">
+                        <label for="newCategoryName">Kateqoriya Adı:</label>
+                        <input type="text" id="newCategoryName" placeholder="Kateqoriya adı">
+                    </div>
+                    <div class="form-group">
+                        <label for="newCategoryCount">Söz Sayı:</label>
+                        <input type="number" id="newCategoryCount" placeholder="Söz sayı">
+                    </div>
+                    <button class="save-btn" id="addCategoryBtn">Əlavə Et</button>
+                </div>
+                <h3>📋 Mövcud Kateqoriyalar</h3>
+                <div class="items-list" id="categoriesList"></div>
+            </div>
+
+            <div class="tab-content" id="ads">
+                <h2>📢 Reklam Kodu</h2>
+                <div class="form-group">
+                    <label for="adsCode">Reklam HTML Kodu:</label>
+                    <textarea id="adsCode" placeholder="Reklam kodunuzu buraya yapışdırın..."></textarea>
+                </div>
+                <button class="save-btn" id="saveAdsBtn">Saxla</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = "Tural@033";
+        let dailyWordsData = [];
+        let keywordsData = [];
+        let categoriesData = {};
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (document.getElementById('password').value === ADMIN_PASSWORD) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                localStorage.setItem('adminLoggedIn', 'true');
+                loadAllData();
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+                setTimeout(() => document.getElementById('errorMessage').style.display = 'none', 3000);
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('adminLoggedIn');
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('password').value = '';
+        });
+
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            loadAllData();
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        function loadAllData() {
+            loadDailyWords();
+            loadKeywords();
+            loadCategories();
+            loadAds();
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('wordsCount').textContent = dailyWordsData.length;
+            document.getElementById('keywordsCount').textContent = keywordsData.length;
+            document.getElementById('categoriesCount').textContent = Object.keys(categoriesData).length;
+        }
+
+        function loadDailyWords() {
+            const saved = localStorage.getItem('daily_words');
+            if (saved) {
+                dailyWordsData = JSON.parse(saved);
+                renderDailyWords();
+                updateStats();
+                return;
+            }
+            fetch('data/daily_words.json').then(r => r.json()).then(data => {
+                dailyWordsData = data.words;
+                renderDailyWords();
+                updateStats();
+            });
+        }
+
+        function renderDailyWords() {
+            document.getElementById('wordsList').innerHTML = dailyWordsData.map((word, index) => `
+                <div class="item">
+                    <div class="item-text"><strong>"${word.text}"</strong><small>- ${word.author}</small></div>
+                    <button class="delete-btn" onclick="deleteDailyWord(${index})">Sil</button>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('addWordBtn').addEventListener('click', () => {
+            const text = document.getElementById('newWordText').value;
+            const author = document.getElementById('newWordAuthor').value;
+            if (text && author) {
+                dailyWordsData.push({text, author});
+                localStorage.setItem('daily_words', JSON.stringify(dailyWordsData));
+                document.getElementById('newWordText').value = '';
+                document.getElementById('newWordAuthor').value = '';
+                renderDailyWords();
+                updateStats();
+                showSuccess();
+            }
+        });
+
+        function deleteDailyWord(index) {
+            if (confirm('Silmək istəyirsiniz?')) {
+                dailyWordsData.splice(index, 1);
+                localStorage.setItem('daily_words', JSON.stringify(dailyWordsData));
+                renderDailyWords();
+                updateStats();
+                showSuccess();
+            }
+        }
+
+        function loadKeywords() {
+            const saved = localStorage.getItem('keywords');
+            if (saved) {
+                keywordsData = JSON.parse(saved);
+                renderKeywords();
+                updateStats();
+                return;
+            }
+            fetch('data/keywords.json').then(r => r.json()).then(data => {
+                keywordsData = data.keywords;
+                renderKeywords();
+                updateStats();
+            });
+        }
+
+        function renderKeywords() {
+            document.getElementById('keywordsList').innerHTML = keywordsData.map((kw, index) => `
+                <div class="item">
+                    <div class="item-text"><strong>${kw.text}</strong><small>Kateqoriya: ${kw.category} | Həcm: ${kw.volume}</small></div>
+                    <button class="delete-btn" onclick="deleteKeyword(${index})">Sil</button>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('addKeywordBtn').addEventListener('click', () => {
+            const text = document.getElementById('newKeywordText').value;
+            const category = document.getElementById('newKeywordCategory').value;
+            const volume = document.getElementById('newKeywordVolume').value;
+            if (text && category && volume) {
+                const newId = keywordsData.length > 0 ? Math.max(...keywordsData.map(k => k.id)) + 1 : 1;
+                keywordsData.push({id: newId, text, category, volume: parseInt(volume)});
+                localStorage.setItem('keywords', JSON.stringify(keywordsData));
+                document.getElementById('newKeywordText').value = '';
+                document.getElementById('newKeywordCategory').value = '';
+                document.getElementById('newKeywordVolume').value = '';
+                renderKeywords();
+                updateStats();
+                showSuccess();
+            }
+        });
+
+        function deleteKeyword(index) {
+            if (confirm('Silmək istəyirsiniz?')) {
+                keywordsData.splice(index, 1);
+                localStorage.setItem('keywords', JSON.stringify(keywordsData));
+                renderKeywords();
+                updateStats();
+                showSuccess();
+            }
+        }
+
+        function loadCategories() {
+            const saved = localStorage.getItem('categories');
+            if (saved) {
+                categoriesData = JSON.parse(saved);
+                renderCategories();
+                updateStats();
+                return;
+            }
+            fetch('data/keywords.json').then(r => r.json()).then(data => {
+                categoriesData = data.categories;
+                renderCategories();
+                updateStats();
+            });
+        }
+
+        function renderCategories() {
+            document.getElementById('categoriesList').innerHTML = Object.entries(categoriesData).map(([key, cat]) => `
+                <div class="item">
+                    <div class="item-text"><strong>${cat.name}</strong><small>${cat.count} söz</small></div>
+                    <button class="delete-btn" onclick="deleteCategory('${key}')">Sil</button>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('addCategoryBtn').addEventListener('click', () => {
+            const name = document.getElementById('newCategoryName').value;
+            const count = document.getElementById('newCategoryCount').value;
+            if (name && count) {
+                const key = name.toLowerCase().replace(/\s+/g, '_');
+                categoriesData[key] = {name, count: parseInt(count)};
+                localStorage.setItem('categories', JSON.stringify(categoriesData));
+                document.getElementById('newCategoryName').value = '';
+                document.getElementById('newCategoryCount').value = '';
+                renderCategories();
+                updateStats();
+                showSuccess();
+            }
+        });
+
+        function deleteCategory(key) {
+            if (confirm('Silmək istəyirsiniz?')) {
+                delete categoriesData[key];
+                localStorage.setItem('categories', JSON.stringify(categoriesData));
+                renderCategories();
+                updateStats();
+                showSuccess();
+            }
+        }
+
+        function loadAds() {
+            document.getElementById('adsCode').value = localStorage.getItem('adsCode') || '';
+        }
+
+        document.getElementById('saveAdsBtn').addEventListener('click', () => {
+            localStorage.setItem('adsCode', document.getElementById('adsCode').value);
+            showSuccess();
+        });
+
+        function showSuccess() {
+            const msg = document.getElementById('successMessage');
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+    </script>
+</body>
+</html>
