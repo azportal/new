@@ -1,126 +1,142 @@
-import { db, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from './firebase-config.js';
+import { db, collection, getDocs, query, orderBy } from './firebase-config.js';
 
-// Bölmələr (80+)
+// 80+ Bölmə
 const categories = [
-  // OYUNLAR
-  { id: 1, name: "Oyun Yüklə", icon: "🎮", desc: "Ən yeni oyunları yükləyin" },
-  { id: 2, name: "PC Oyunlar", icon: "💻", desc: "Komputer oyunları" },
-  { id: 3, name: "Mobil Oyunlar", icon: "📱", desc: "Android oyunları" },
-  { id: 4, name: "Konsol Oyunlar", icon: "🕹️", desc: "PlayStation, Xbox" },
-  { id: 5, name: "Retro Oyunlar", icon: "👾", desc: "Klassik oyunlar" },
-  { id: 6, name: "Online Oyunlar", icon: "🌐", desc: "Çoxlu oyunçu oyunları" },
-  { id: 7, name: "Oyun Modları", icon: "⚙️", desc: "Oyun modifikasiyaları" },
-  { id: 8, name: "Oyun Treylerləri", icon: "🎬", desc: "Oyun videoları" },
-  { id: 9, name: "Oyun Xəbərləri", icon: "📰", desc: "Oyun haqqında xəbərlər" },
-  
-  // TEXNOLOGİYA
-  { id: 10, name: "Texnologiya Xəbərləri", icon: "📡", desc: "Texnologiya xəbərləri" },
-  { id: 11, name: "Smartfonlar", icon: "📲", desc: "Telefon modellləri" },
-  { id: 12, name: "Planşetlər", icon: "📱", desc: "Tablet cihazları" },
-  { id: 13, name: "Noutbuklar", icon: "💻", desc: "Laptop kompüterləri" },
-  { id: 14, name: "Komputer Hissələri", icon: "🔧", desc: "PC komponentləri" },
-  { id: 15, name: "Prosessorlar", icon: "⚡", desc: "CPU prosessorları" },
-  { id: 16, name: "Video Kartlar", icon: "🎨", desc: "GPU kartları" },
-  { id: 17, name: "Monitorlar", icon: "🖥️", desc: "Ekran monitorları" },
-  { id: 18, name: "Gaming Aksesuarları", icon: "🎧", desc: "Oyun aksesuarları" },
-  
-  // PROQRAMLAŞDIRMA
-  { id: 19, name: "Web Proqramlaşdırma", icon: "🌐", desc: "Web development" },
-  { id: 20, name: "Mobil Proqramlaşdırma", icon: "📱", desc: "Mobil app development" },
-  { id: 21, name: "Python", icon: "🐍", desc: "Python proqramlaşdırması" },
-  { id: 22, name: "JavaScript", icon: "⚙️", desc: "JavaScript kodlaması" },
-  { id: 23, name: "PHP", icon: "🔵", desc: "PHP backend" },
-  { id: 24, name: "Java", icon: "☕", desc: "Java proqramlaşdırması" },
-  { id: 25, name: "C++", icon: "📝", desc: "C++ kodlaması" },
-  { id: 26, name: "API İnkişafı", icon: "🔌", desc: "API development" },
-  { id: 27, name: "Open Source", icon: "🔓", desc: "Açıq mənbə layihələri" },
-  
-  // SÜNİ İNTELLEKT
-  { id: 28, name: "AI Alətləri", icon: "🤖", desc: "Süni intellekt alətləri" },
-  { id: 29, name: "Machine Learning", icon: "🧠", desc: "Maşın öyrənməsi" },
-  { id: 30, name: "Deep Learning", icon: "🔬", desc: "Dərin öyrənmə" },
-  { id: 31, name: "AI Xəbərləri", icon: "📰", desc: "AI haqqında xəbərlər" },
-  { id: 32, name: "AI Proqramları", icon: "💾", desc: "AI proqramları" },
-  { id: 33, name: "AI Botlar", icon: "🤖", desc: "Chatbot və botlar" },
-  
-  // SOSİAL ŞƏBƏKƏLƏR
-  { id: 34, name: "Instagram", icon: "📸", desc: "Instagram trikləri" },
-  { id: 35, name: "TikTok", icon: "🎵", desc: "TikTok videoları" },
-  { id: 36, name: "YouTube", icon: "📺", desc: "YouTube kanalları" },
-  { id: 37, name: "Facebook", icon: "👥", desc: "Facebook məlumatları" },
-  { id: 38, name: "Telegram", icon: "✈️", desc: "Telegram botları" },
-  { id: 39, name: "WhatsApp", icon: "💬", desc: "WhatsApp trikləri" },
-  { id: 40, name: "Sosial Media Trikləri", icon: "⭐", desc: "Sosial media ipuçları" },
-  
-  // BİZNES
-  { id: 41, name: "Sahibkarlıq", icon: "💼", desc: "Biznes məlumatları" },
-  { id: 42, name: "Startaplar", icon: "🚀", desc: "Startup layihələri" },
-  { id: 43, name: "Marketinq", icon: "📊", desc: "Marketinq strategiyaları" },
-  { id: 44, name: "Digital Marketinq", icon: "💻", desc: "Rəqəmsal marketinq" },
-  { id: 45, name: "SMM", icon: "📱", desc: "Sosial media marketinq" },
-  { id: 46, name: "Freelance", icon: "💰", desc: "Freelance işləri" },
-  { id: 47, name: "Online Pul Qazanmaq", icon: "💵", desc: "Pul qazanma yolları" },
-  { id: 48, name: "E-commerce", icon: "🛒", desc: "Elektron ticarət" },
-  { id: 49, name: "Dropshipping", icon: "📦", desc: "Dropshipping biznes" },
-  
-  // KRİPTO
-  { id: 50, name: "Kriptovalyuta Xəbərləri", icon: "📈", desc: "Kripto xəbərləri" },
-  { id: 51, name: "Bitcoin", icon: "₿", desc: "Bitcoin məlumatları" },
-  { id: 52, name: "Altcoinlər", icon: "💎", desc: "Digər kriptolar" },
-  { id: 53, name: "Blockchain", icon: "⛓️", desc: "Blockchain texnologiyası" },
-  { id: 54, name: "NFT", icon: "🎨", desc: "NFT və dijital sənət" },
-  { id: 55, name: "Web3", icon: "🌐", desc: "Web3 texnologiyası" },
-  { id: 56, name: "Kripto Analiz", icon: "📊", desc: "Kripto analizi" },
-  
-  // TƏHSİL
-  { id: 57, name: "Online Kurslar", icon: "📚", desc: "Onlayn kurslar" },
-  { id: 58, name: "Universitetlər", icon: "🎓", desc: "Universitetlər" },
-  { id: 59, name: "Tələbə Həyatı", icon: "👨‍🎓", desc: "Tələbə məlumatları" },
-  { id: 60, name: "Dərs Materialları", icon: "📖", desc: "Dərs materialları" },
-  { id: 61, name: "İmtahan Hazırlığı", icon: "✏️", desc: "İmtahan hazırlığı" },
-  { id: 62, name: "Dil Öyrənmə", icon: "🗣️", desc: "Dil öyrənmə" },
-  
-  // ELM
-  { id: 63, name: "Riyaziyyat", icon: "🔢", desc: "Riyaziyyat dərsi" },
-  { id: 64, name: "Fizika", icon: "⚛️", desc: "Fizika elmləri" },
-  { id: 65, name: "Kimya", icon: "🧪", desc: "Kimya elmləri" },
-  { id: 66, name: "Biologiya", icon: "🧬", desc: "Biologiya elmləri" },
-  { id: 67, name: "Astronomiya", icon: "🌌", desc: "Astronomiya" },
-  { id: 68, name: "Kosmos", icon: "🚀", desc: "Kosmos araşdırması" },
-  
-  // SAĞLAMLIQ
-  { id: 69, name: "Tibbi Məlumatlar", icon: "⚕️", desc: "Sağlıq məlumatları" },
-  { id: 70, name: "Fitness", icon: "💪", desc: "Fitness məşqləri" },
-  { id: 71, name: "Bodybuilding", icon: "🏋️", desc: "Bodybuilding" },
-  { id: 72, name: "Dieta və Qidalanma", icon: "🥗", desc: "Dieta planları" },
-  { id: 73, name: "Meditasiya", icon: "🧘", desc: "Meditasiya" },
-  { id: 74, name: "Yoga", icon: "🧘‍♀️", desc: "Yoga məşqləri" },
-  
-  // İDMAN
-  { id: 75, name: "Futbol", icon: "⚽", desc: "Futbol xəbərləri" },
-  { id: 76, name: "Basketbol", icon: "🏀", desc: "Basketbol" },
-  { id: 77, name: "UFC / MMA", icon: "🥊", desc: "UFC döyüşləri" },
-  { id: 78, name: "E-sport", icon: "🎮", desc: "E-sport turnirləri" },
-  { id: 79, name: "İdman Xəbərləri", icon: "📰", desc: "İdman xəbərləri" },
-  
-  // ƏYLƏNCƏ
-  { id: 80, name: "Memlər", icon: "😂", desc: "Komik memlər" }
+  // OYUNLAR (9)
+  { id: 1, name: "Oyun Yüklə", icon: "🎮", desc: "Ən yeni oyunları yükləyin", category: "games", apiType: "games" },
+  { id: 2, name: "PC Oyunlar", icon: "💻", desc: "Komputer oyunları", category: "games", apiType: "games" },
+  { id: 3, name: "Mobil Oyunlar", icon: "📱", desc: "Android oyunları", category: "games", apiType: "playstore" },
+  { id: 4, name: "Konsol Oyunlar", icon: "🕹️", desc: "PlayStation, Xbox", category: "games", apiType: "games" },
+  { id: 5, name: "Retro Oyunlar", icon: "👾", desc: "Klassik oyunlar", category: "games", apiType: "games" },
+  { id: 6, name: "Online Oyunlar", icon: "🌐", desc: "Çoxlu oyunçu oyunları", category: "games", apiType: "games" },
+  { id: 7, name: "Oyun Modları", icon: "⚙️", desc: "Oyun modifikasiyaları", category: "games", apiType: "games" },
+  { id: 8, name: "Oyun Treylerləri", icon: "🎬", desc: "Oyun videoları", category: "games", apiType: "youtube" },
+  { id: 9, name: "Oyun Xəbərləri", icon: "📰", desc: "Oyun haqqında xəbərlər", category: "games", apiType: "news" },
+
+  // TEXNOLOGİYA (9)
+  { id: 10, name: "Texnologiya Xəbərləri", icon: "📡", desc: "Texnologiya xəbərləri", category: "tech", apiType: "news" },
+  { id: 11, name: "Smartfonlar", icon: "📲", desc: "Telefon modellləri", category: "tech", apiType: "news" },
+  { id: 12, name: "Planşetlər", icon: "📱", desc: "Tablet cihazları", category: "tech", apiType: "news" },
+  { id: 13, name: "Noutbuklar", icon: "💻", desc: "Laptop kompüterləri", category: "tech", apiType: "news" },
+  { id: 14, name: "Komputer Hissələri", icon: "🔧", desc: "PC komponentləri", category: "tech", apiType: "news" },
+  { id: 15, name: "Prosessorlar", icon: "⚡", desc: "CPU prosessorları", category: "tech", apiType: "news" },
+  { id: 16, name: "Video Kartlar", icon: "🎨", desc: "GPU kartları", category: "tech", apiType: "news" },
+  { id: 17, name: "Monitorlar", icon: "🖥️", desc: "Ekran monitorları", category: "tech", apiType: "news" },
+  { id: 18, name: "Gaming Aksesuarları", icon: "🎧", desc: "Oyun aksesuarları", category: "tech", apiType: "news" },
+
+  // PROQRAMLAŞDIRMA (9)
+  { id: 19, name: "Web Proqramlaşdırma", icon: "🌐", desc: "Web development", category: "programming", apiType: "github" },
+  { id: 20, name: "Mobil Proqramlaşdırma", icon: "📱", desc: "Mobil app development", category: "programming", apiType: "github" },
+  { id: 21, name: "Python", icon: "🐍", desc: "Python proqramlaşdırması", category: "programming", apiType: "github" },
+  { id: 22, name: "JavaScript", icon: "⚙️", desc: "JavaScript kodlaması", category: "programming", apiType: "github" },
+  { id: 23, name: "PHP", icon: "🔵", desc: "PHP backend", category: "programming", apiType: "github" },
+  { id: 24, name: "Java", icon: "☕", desc: "Java proqramlaşdırması", category: "programming", apiType: "github" },
+  { id: 25, name: "C++", icon: "📝", desc: "C++ kodlaması", category: "programming", apiType: "github" },
+  { id: 26, name: "API İnkişafı", icon: "🔌", desc: "API development", category: "programming", apiType: "github" },
+  { id: 27, name: "Open Source", icon: "🔓", desc: "Açıq mənbə layihələri", category: "programming", apiType: "github" },
+
+  // SÜNİ İNTELLEKT (6)
+  { id: 28, name: "AI Alətləri", icon: "🤖", desc: "Süni intellekt alətləri", category: "ai", apiType: "news" },
+  { id: 29, name: "Machine Learning", icon: "🧠", desc: "Maşın öyrənməsi", category: "ai", apiType: "github" },
+  { id: 30, name: "Deep Learning", icon: "🔬", desc: "Dərin öyrənmə", category: "ai", apiType: "github" },
+  { id: 31, name: "AI Xəbərləri", icon: "📰", desc: "AI haqqında xəbərlər", category: "ai", apiType: "news" },
+  { id: 32, name: "AI Proqramları", icon: "💾", desc: "AI proqramları", category: "ai", apiType: "github" },
+  { id: 33, name: "AI Botlar", icon: "🤖", desc: "Chatbot və botlar", category: "ai", apiType: "github" },
+
+  // SOSİAL ŞƏBƏKƏLƏR (7)
+  { id: 34, name: "Instagram", icon: "📸", desc: "Instagram trikləri", category: "social", apiType: "news" },
+  { id: 35, name: "TikTok", icon: "🎵", desc: "TikTok videoları", category: "social", apiType: "youtube" },
+  { id: 36, name: "YouTube", icon: "📺", desc: "YouTube kanalları", category: "social", apiType: "youtube" },
+  { id: 37, name: "Facebook", icon: "👥", desc: "Facebook məlumatları", category: "social", apiType: "news" },
+  { id: 38, name: "Telegram", icon: "✈️", desc: "Telegram botları", category: "social", apiType: "news" },
+  { id: 39, name: "WhatsApp", icon: "💬", desc: "WhatsApp trikləri", category: "social", apiType: "news" },
+  { id: 40, name: "Sosial Media Trikləri", icon: "⭐", desc: "Sosial media ipuçları", category: "social", apiType: "news" },
+
+  // BİZNES (9)
+  { id: 41, name: "Sahibkarlıq", icon: "💼", desc: "Biznes məlumatları", category: "business", apiType: "news" },
+  { id: 42, name: "Startaplar", icon: "🚀", desc: "Startup layihələri", category: "business", apiType: "news" },
+  { id: 43, name: "Marketinq", icon: "📊", desc: "Marketinq strategiyaları", category: "business", apiType: "news" },
+  { id: 44, name: "Digital Marketinq", icon: "💻", desc: "Rəqəmsal marketinq", category: "business", apiType: "news" },
+  { id: 45, name: "SMM", icon: "📱", desc: "Sosial media marketinq", category: "business", apiType: "news" },
+  { id: 46, name: "Freelance", icon: "💰", desc: "Freelance işləri", category: "business", apiType: "news" },
+  { id: 47, name: "Online Pul Qazanmaq", icon: "💵", desc: "Pul qazanma yolları", category: "business", apiType: "news" },
+  { id: 48, name: "E-commerce", icon: "🛒", desc: "Elektron ticarət", category: "business", apiType: "news" },
+  { id: 49, name: "Dropshipping", icon: "📦", desc: "Dropshipping biznes", category: "business", apiType: "news" },
+
+  // KRİPTO (7)
+  { id: 50, name: "Kriptovalyuta Xəbərləri", icon: "📈", desc: "Kripto xəbərləri", category: "crypto", apiType: "news" },
+  { id: 51, name: "Bitcoin", icon: "₿", desc: "Bitcoin məlumatları", category: "crypto", apiType: "crypto" },
+  { id: 52, name: "Altcoinlər", icon: "💎", desc: "Digər kriptolar", category: "crypto", apiType: "crypto" },
+  { id: 53, name: "Blockchain", icon: "⛓️", desc: "Blockchain texnologiyası", category: "crypto", apiType: "news" },
+  { id: 54, name: "NFT", icon: "🎨", desc: "NFT və dijital sənət", category: "crypto", apiType: "news" },
+  { id: 55, name: "Web3", icon: "🌐", desc: "Web3 texnologiyası", category: "crypto", apiType: "news" },
+  { id: 56, name: "Kripto Analiz", icon: "📊", desc: "Kripto analizi", category: "crypto", apiType: "news" },
+
+  // TƏHSİL (6)
+  { id: 57, name: "Online Kurslar", icon: "📚", desc: "Onlayn kurslar", category: "education", apiType: "news" },
+  { id: 58, name: "Universitetlər", icon: "🎓", desc: "Universitetlər", category: "education", apiType: "news" },
+  { id: 59, name: "Tələbə Həyatı", icon: "👨‍🎓", desc: "Tələbə məlumatları", category: "education", apiType: "news" },
+  { id: 60, name: "Dərs Materialları", icon: "📖", desc: "Dərs materialları", category: "education", apiType: "news" },
+  { id: 61, name: "İmtahan Hazırlığı", icon: "✏️", desc: "İmtahan hazırlığı", category: "education", apiType: "news" },
+  { id: 62, name: "Dil Öyrənmə", icon: "🗣️", desc: "Dil öyrənmə", category: "education", apiType: "news" },
+
+  // ELM (6)
+  { id: 63, name: "Riyaziyyat", icon: "🔢", desc: "Riyaziyyat dərsi", category: "science", apiType: "news" },
+  { id: 64, name: "Fizika", icon: "⚛️", desc: "Fizika elmləri", category: "science", apiType: "news" },
+  { id: 65, name: "Kimya", icon: "🧪", desc: "Kimya elmləri", category: "science", apiType: "news" },
+  { id: 66, name: "Biologiya", icon: "🧬", desc: "Biologiya elmləri", category: "science", apiType: "news" },
+  { id: 67, name: "Astronomiya", icon: "🌌", desc: "Astronomiya", category: "science", apiType: "news" },
+  { id: 68, name: "Kosmos", icon: "🚀", desc: "Kosmos araşdırması", category: "science", apiType: "news" },
+
+  // SAĞLAMLIQ (6)
+  { id: 69, name: "Tibbi Məlumatlar", icon: "⚕️", desc: "Sağlıq məlumatları", category: "health", apiType: "news" },
+  { id: 70, name: "Fitness", icon: "💪", desc: "Fitness məşqləri", category: "health", apiType: "youtube" },
+  { id: 71, name: "Bodybuilding", icon: "🏋️", desc: "Bodybuilding", category: "health", apiType: "youtube" },
+  { id: 72, name: "Dieta və Qidalanma", icon: "🥗", desc: "Dieta planları", category: "health", apiType: "news" },
+  { id: 73, name: "Meditasiya", icon: "🧘", desc: "Meditasiya", category: "health", apiType: "youtube" },
+  { id: 74, name: "Yoga", icon: "🧘‍♀️", desc: "Yoga məşqləri", category: "health", apiType: "youtube" },
+
+  // İDMAN (5)
+  { id: 75, name: "Futbol", icon: "⚽", desc: "Futbol xəbərləri", category: "sports", apiType: "news" },
+  { id: 76, name: "Basketbol", icon: "🏀", desc: "Basketbol", category: "sports", apiType: "news" },
+  { id: 77, name: "UFC / MMA", icon: "🥊", desc: "UFC döyüşləri", category: "sports", apiType: "news" },
+  { id: 78, name: "E-sport", icon: "🎮", desc: "E-sport turnirləri", category: "sports", apiType: "youtube" },
+  { id: 79, name: "İdman Xəbərləri", icon: "📰", desc: "İdman xəbərləri", category: "sports", apiType: "news" },
+
+  // ƏYLƏNCƏ (5)
+  { id: 80, name: "Memlər", icon: "😂", desc: "Komik memlər", category: "entertainment", apiType: "youtube" }
 ];
 
-// Saytı yüklə
+// Saytı yükle
 document.addEventListener('DOMContentLoaded', () => {
-  loadCategories();
-  loadComments();
-  loadOrders();
-  setupForms();
+  loadCategoriesFromFirebase();
   setupMobileMenu();
+  loadTrendingData();
+  loadAds();
 });
 
+// Firebase-dən bölmələri yüklə
+async function loadCategoriesFromFirebase() {
+  try {
+    const snapshot = await getDocs(collection(db, 'categories'));
+    if (snapshot.docs.length > 0) {
+      const firebaseCategories = snapshot.docs.map(doc => doc.data());
+      categories.push(...firebaseCategories);
+    }
+    displayCategories();
+  } catch (error) {
+    console.log('Firebase-dən yüklənə bilmədi, lokal məlumatlar istifadə olunur');
+    displayCategories();
+  }
+}
+
 // Bölmələri göstər
-function loadCategories() {
+function displayCategories() {
   const grid = document.getElementById('categories-grid');
+  if (!grid) return;
+  
   grid.innerHTML = categories.map(cat => `
-    <div class="category-card" onclick="viewCategory(${cat.id})">
+    <div class="category-card" onclick="openCategory(${cat.id})">
       <div style="font-size: 2rem; margin-bottom: 10px;">${cat.icon}</div>
       <h3>${cat.name}</h3>
       <p>${cat.desc}</p>
@@ -129,14 +145,35 @@ function loadCategories() {
 }
 
 // Bölməni aç
-function viewCategory(id) {
-  const cat = categories.find(c => c.id === id);
-  alert(`${cat.name}\n\n${cat.desc}`);
+function openCategory(id) {
+  window.location.href = `category.html?id=${id}`;
 }
 
-// Axtarış
-function searchCategories() {
-  const search = document.getElementById('search').value.toLowerCase();
+// Bölmə filtrə
+function filterCategory(filter) {
+  const grid = document.getElementById('categories-grid');
+  const buttons = document.querySelectorAll('.cat-tab');
+  
+  buttons.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  if (filter === 'all') {
+    displayCategories();
+  } else {
+    const filtered = categories.filter(cat => cat.category === filter);
+    grid.innerHTML = filtered.map(cat => `
+      <div class="category-card" onclick="openCategory(${cat.id})">
+        <div style="font-size: 2rem; margin-bottom: 10px;">${cat.icon}</div>
+        <h3>${cat.name}</h3>
+        <p>${cat.desc}</p>
+      </div>
+    `).join('');
+  }
+}
+
+// Global axtarış
+function globalSearch() {
+  const search = document.getElementById('global-search').value.toLowerCase();
   const grid = document.getElementById('categories-grid');
   
   const filtered = categories.filter(cat => 
@@ -150,7 +187,7 @@ function searchCategories() {
   }
   
   grid.innerHTML = filtered.map(cat => `
-    <div class="category-card" onclick="viewCategory(${cat.id})">
+    <div class="category-card" onclick="openCategory(${cat.id})">
       <div style="font-size: 2rem; margin-bottom: 10px;">${cat.icon}</div>
       <h3>${cat.name}</h3>
       <p>${cat.desc}</p>
@@ -158,114 +195,45 @@ function searchCategories() {
   `).join('');
 }
 
-// Şərhlər yüklə
-async function loadComments() {
-  const list = document.getElementById('comments-list');
-  try {
-    const q = query(collection(db, 'comments'), orderBy('timestamp', 'desc'));
-    const snapshot = await getDocs(q);
-    
-    if (snapshot.empty) {
-      list.innerHTML = '<p style="text-align: center;">Hələ şərh yoxdur</p>';
-      return;
-    }
-    
-    list.innerHTML = snapshot.docs.map(doc => {
-      const data = doc.data();
-      return `
-        <div class="comment-item">
-          <strong>${data.name}</strong>
-          <small>${new Date(data.timestamp).toLocaleDateString('az-AZ')}</small>
-          <p>${data.text}</p>
-        </div>
-      `;
-    }).join('');
-  } catch (error) {
-    console.error('Şərhlər yüklənərkən xəta:', error);
-  }
-}
-
-// Sifarişləri yüklə
-async function loadOrders() {
-  const list = document.getElementById('orders-list');
-  try {
-    const q = query(collection(db, 'orders'), orderBy('timestamp', 'desc'));
-    const snapshot = await getDocs(q);
-    
-    if (snapshot.empty) {
-      list.innerHTML = '<p style="text-align: center;">Hələ sifariş yoxdur</p>';
-      return;
-    }
-    
-    list.innerHTML = snapshot.docs.map(doc => {
-      const data = doc.data();
-      return `
-        <div class="order-item">
-          <h4>${data.name}</h4>
-          <p><strong>Email:</strong> ${data.email}</p>
-          <p><strong>Telefon:</strong> ${data.phone}</p>
-          <p><strong>Sifariş:</strong> ${data.message}</p>
-          <small>${new Date(data.timestamp).toLocaleDateString('az-AZ')}</small>
-        </div>
-      `;
-    }).join('');
-  } catch (error) {
-    console.error('Sifarişlər yüklənərkən xəta:', error);
-  }
-}
-
-// Formları qur
-function setupForms() {
-  // Şərh formu
-  document.getElementById('comment-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('comment-name').value;
-    const email = document.getElementById('comment-email').value;
-    const text = document.getElementById('comment-text').value;
-    
-    try {
-      await addDoc(collection(db, 'comments'), {
-        name,
-        email,
-        text,
-        timestamp: new Date().toISOString()
-      });
-      
-      document.getElementById('comment-form').reset();
-      alert('Şərhiniz göndərildi!');
-      loadComments();
-    } catch (error) {
-      alert('Xəta: ' + error.message);
-    }
-  });
+// Trend məlumatları yüklə
+async function loadTrendingData() {
+  const trendingContainer = document.getElementById('trending-content');
+  if (!trendingContainer) return;
   
-  // Sifariş formu
-  document.getElementById('order-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
+  trendingContainer.innerHTML = '<p>Yüklənir...</p>';
+  
+  try {
+    const cryptoData = await callAPI('crypto', '');
+    const newsData = await callAPI('news', 'trending');
     
-    const inputs = document.querySelectorAll('#order-form input, #order-form textarea');
-    const name = inputs[0].value;
-    const email = inputs[1].value;
-    const phone = inputs[2].value;
-    const message = inputs[3].value;
+    const combined = [...(cryptoData || []).slice(0, 5), ...(newsData || []).slice(0, 5)];
     
-    try {
-      await addDoc(collection(db, 'orders'), {
-        name,
-        email,
-        phone,
-        message,
-        timestamp: new Date().toISOString()
-      });
-      
-      document.getElementById('order-form').reset();
-      alert('Sifarişiniz göndərildi!');
-      loadOrders();
-    } catch (error) {
-      alert('Xəta: ' + error.message);
-    }
-  });
+    trendingContainer.innerHTML = combined.map(item => `
+      <div class="trending-card">
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        <a href="${item.link}" target="_blank">Daha çox</a>
+      </div>
+    `).join('');
+  } catch (error) {
+    console.error('Trend məlumatları yüklənərkən xəta:', error);
+    trendingContainer.innerHTML = '<p>Xəta baş verdi</p>';
+  }
+}
+
+// Reklamları yüklə
+function loadAds() {
+  const adsTop = document.getElementById('ads-top');
+  const adsMiddle = document.getElementById('ads-middle');
+  const adsBottom = document.getElementById('ads-bottom');
+  
+  const adsTopCode = localStorage.getItem('ads-top');
+  const adsMiddleCode = localStorage.getItem('ads-middle');
+  const adsBottomCode = localStorage.getItem('ads-bottom');
+  
+  if (adsTopCode) adsTop.innerHTML = adsTopCode;
+  if (adsMiddleCode) adsMiddle.innerHTML = adsMiddleCode;
+  if (adsBottomCode) adsBottom.innerHTML = adsBottomCode;
 }
 
 // Mobil menyu
@@ -279,3 +247,9 @@ function setupMobileMenu() {
     });
   }
 }
+
+// Global funksiyalar
+window.openCategory = openCategory;
+window.filterCategory = filterCategory;
+window.globalSearch = globalSearch;
+
