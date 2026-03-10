@@ -7,28 +7,22 @@
     <meta name="google-site-verification" content="7KYCp6OVjOrZB_TTBfOI8X-d6JSOlyjRtp3NDhplsCY" />
     <meta name="google-site-verification" content="xd5sf4oz2nt6" />
     <meta name="yandex-verification" content="077145342cf7f4c9" />
-    <meta name="description" content="Salam, xoş gəlmisiniz. Gününüz uğurlu olsun. 100,000+ SEO sözləri, günün sözü, motivasyon və daha çox.">
-    <meta name="keywords" content="seo, sözlər, motivasyon, günün sözü, azərbaycanca, kateqoriyalar, apk indir, android apk, apk yukle">
-    <meta name="author" content="Azmedia">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="AzProWap - 100,000+ SEO Sözləri">
-    <meta property="og:description" content="Salam, xoş gəlmisiniz. Gününüz uğurlu olsun.">
-    <meta property="og:type" content="website">
-    <title>AzProWap - 100,000+ SEO Sözləri | Motivasyon | Günün Sözü | APK İndir</title>
+    <meta name="description" content="AzProWap - Oyunlar, Proqramlar, Texnologiya, Sifariş, Şərhlər və daha çox.">
+    <meta name="keywords" content="oyun yüklə, proqram indir, texnologiya, sifariş, şərhlər">
+    <title>AzProWap - Oyunlar, Proqramlar, Texnologiya</title>
     <link rel="canonical" href="https://azportal.github.io/new/">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">🌟 AzProWap</div>
             <ul class="nav-menu">
                 <li><a href="index.html" class="active">Ana səhifə</a></li>
-                <li><a href="top-words.html">Top Sözlər</a></li>
-                <li><a href="categories.html">Kateqoriyalar</a></li>
-                <li><a href="daily-word.html">Günün Sözü</a></li>
-                <li><a href="about.html">Haqqımızda</a></li>
-                <li><a href="contact.html">Əlaqə</a></li>
+                <li><a href="#categories">Kateqoriyalar</a></li>
+                <li><a href="#orders">Sifariş</a></li>
+                <li><a href="#comments">Şərhlər</a></li>
                 <li><a href="admin.html" style="color: #f093fb;">🔐 Admin</a></li>
             </ul>
             <div class="hamburger">
@@ -39,74 +33,113 @@
         </div>
     </nav>
 
-    <section class="welcome-section">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <h1>Salam, xoş gəlmisiniz. Gününüz uğurlu olsun.</h1>
-            <div class="welcome-info">
-                <div class="info-item">
-                    <span class="label">Bu gün:</span>
-                    <span class="value" id="current-date">Loading...</span>
-                </div>
-                <div class="info-item">
-                    <span class="label">Saat:</span>
-                    <span class="value" id="live-time">00:00:00</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="daily-word-section">
-        <div class="container">
-            <h2>Günün Sözü</h2>
-            <div class="daily-word-card">
-                <p class="word-text" id="daily-word-text">Loading...</p>
-                <p class="word-author" id="daily-word-author">- Author</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="search-section">
-        <div class="container">
-            <h2>100,000+ SEO Sözləri Arasında Axtarış</h2>
+            <h1>Xoş gəlmisiniz AzProWap-a</h1>
+            <p>Oyunlar, Proqramlar, Texnologiya və daha çox</p>
             <div class="search-box">
-                <input type="text" id="keyword-search" placeholder="Sözü axtarın..." autocomplete="off">
-                <button id="search-btn">Axtar</button>
+                <input type="text" id="search" placeholder="Axtarış edin...">
+                <button onclick="searchCategories()">Axtar</button>
             </div>
-            <div id="search-results" class="search-results"></div>
         </div>
     </section>
 
-    <section class="top-keywords-section">
-        <div class="container">
-            <h2>Ən Populyar Sözlər</h2>
-            <div class="keywords-grid" id="top-keywords"></div>
-        </div>
-    </section>
-
-    <section class="categories-section">
-        <div class="container">
-            <h2>Kateqoriyalar</h2>
-            <div class="categories-grid" id="categories-grid"></div>
-        </div>
-    </section>
-
+    <!-- Ads Top -->
     <section class="ads-section">
         <div class="container">
-            <div class="ads-area" id="ads-area">
-                <p style="text-align: center; color: #999; padding: 40px 0;">Reklam Alanı</p>
+            <div id="ads-top" class="ads-area">
+                <p>Reklam Alanı (Üst)</p>
             </div>
         </div>
     </section>
 
+    <!-- Categories Section -->
+    <section id="categories" class="categories-section">
+        <div class="container">
+            <h2>Kateqoriyalar</h2>
+            <div id="categories-grid" class="categories-grid">
+                <!-- Dinamik yüklənəcək -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Ads Middle -->
+    <section class="ads-section">
+        <div class="container">
+            <div id="ads-middle" class="ads-area">
+                <p>Reklam Alanı (Orta)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Orders Section -->
+    <section id="orders" class="orders-section">
+        <div class="container">
+            <h2>Sifariş Ver</h2>
+            <form id="order-form" class="order-form">
+                <input type="text" placeholder="Adınız" required>
+                <input type="email" placeholder="Email" required>
+                <input type="tel" placeholder="Telefon" required>
+                <textarea placeholder="Sifariş məlumatı" required></textarea>
+                <button type="submit">Sifariş Ver</button>
+            </form>
+            <h3>Göndərilən Sifarişlər</h3>
+            <div id="orders-list" class="orders-list">
+                <!-- Sifarişlər göstəriləcək -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Ads Bottom -->
+    <section class="ads-section">
+        <div class="container">
+            <div id="ads-bottom" class="ads-area">
+                <p>Reklam Alanı (Alt)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section id="comments" class="comments-section">
+        <div class="container">
+            <h2>Şərhlər / Qonaq Kitabı</h2>
+            <form id="comment-form" class="comment-form">
+                <input type="text" id="comment-name" placeholder="Adınız" required>
+                <input type="email" id="comment-email" placeholder="Email" required>
+                <textarea id="comment-text" placeholder="Şərhiniz..." required></textarea>
+                <button type="submit">Şərh Göndər</button>
+            </form>
+            <h3>Şərhlər</h3>
+            <div id="comments-list" class="comments-list">
+                <!-- Şərhlər göstəriləcək -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2024 Azmedia Pro tərəfindən bütün hüquqlar qorunur</p>
-                <p>Müəllif: <strong>Azmedia</strong></p>
+                <p>&copy; 2024 AzProWap. Bütün hüquqlar qorunur.</p>
+                <p><a href="sitemap.xml">Sitemap</a> | <a href="sitemap.html">HTML Sitemap</a></p>
             </div>
         </div>
     </footer>
 
-    <script src="app.js"></script>
+    <!-- Tawk.to Chat -->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/69af642dddd7fc1c34853e3f/1i0n8bnqm';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+
+    <script type="module" src="app.js"></script>
 </body>
 </html>
