@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="7KYCp6OVjOrZB_TTBfOI8X-d6JSOlyjRtp3NDhplsCY" />
+    <meta name="google-site-verification" content="xd5sf4oz2nt6" />
+    <meta name="yandex-verification" content="077145342cf7f4c9" />
+    <title>Bölmə | AzProWap</title>
+    <link rel="canonical" href="https://azportal.github.io/new/">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .category-detail {
+            max-width:1200px;
+            margin:0 auto;
+            padding:40px 20px
+        }
+        .category-header {
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            color:white;
+            padding:40px;
+            border-radius:10px;
+            margin-bottom:40px;
+            text-align:center
+        }
+        .category-header h1 {
+            font-size:2.5rem;
+            margin-bottom:10px
+        }
+        .category-header p {
+            font-size:1.1rem;
+            opacity:0.9
+        }
+        .category-search {
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            margin-bottom:40px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.1)
+        }
+        .category-search input {
+            width:100%;
+            padding:12px 15px;
+            border:2px solid #e0e0e0;
+            border-radius:8px;
+            font-size:1rem;
+            margin-bottom:15px
+        }
+        .category-search button {
+            width:100%;
+            padding:12px;
+            background:linear-gradient(135deg,#667eea,#764ba2);
+            color:white;
+            border:none;
+            border-radius:8px;
+            font-weight:600;
+            cursor:pointer
+        }
+        .category-results {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+            gap:20px;
+            margin-top:20px
+        }
+        .result-card {
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+            transition:all 0.3s;
+            cursor:pointer
+        }
+        .result-card:hover {
+            transform:translateY(-5px);
+            box-shadow:0 8px 20px rgba(0,0,0,0.15)
+        }
+        .result-card h3 {
+            color:#667eea;
+            margin-bottom:10px
+        }
+        .result-card p {
+            color:#666;
+            font-size:0.9rem;
+            margin-bottom:10px
+        }
+        .result-card a {
+            display:inline-block;
+            padding:8px 15px;
+            background:#667eea;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+            font-size:0.9rem;
+            transition:all 0.3s
+        }
+        .result-card a:hover {
+            background:#764ba2
+        }
+        .loading {
+            text-align:center;
+            padding:40px;
+            color:#999
+        }
+        .no-results {
+            text-align:center;
+            padding:40px;
+            color:#999;
+            font-size:1.1rem
+        }
+        .infinite-scroll-trigger {
+            height:100px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#999
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select onchange="setLanguage(this.value)">
+            <option value="az">🇦🇿 Azərbaycanca</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="uk">🇺🇦 Українська</option>
+            <option value="ge">🇬🇪 ქართული</option>
+        </select>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🌟 AzProWap</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Ana səhifə</a></li>
+                <li><a href="index.html#categories">Bölmələr</a></li>
+                <li><a href="admin.html" style="color: #f093fb;">🔐 Admin</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Category Detail -->
+    <div class="category-detail">
+        <div class="category-header" id="category-header">
+            <h1 id="category-name">Yüklənir...</h1>
+            <p id="category-desc">Yüklənir...</p>
+        </div>
+
+        <div class="category-search">
+            <h2>Axtarış</h2>
+            <input type="text" id="category-search-input" placeholder="Bu bölmədə axtarış edin...">
+            <button onclick="searchInCategory()">Axtar</button>
+        </div>
+
+        <div id="category-results" class="category-results">
+            <div class="loading">Yüklənir...</div>
+        </div>
+
+        <div class="infinite-scroll-trigger" id="infinite-scroll-trigger">
+            Daha çox yüklənir...
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 AzProWap. Bütün hüquqlar qorunur.</p>
+                <p><a href="sitemap.xml">Sitemap</a> | <a href="sitemap.html">HTML Sitemap</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Bot -->
+    <div id="chat-bot"></div>
+
+    <script src="i18n.js"></script>
+    <script src="chat-bot.js"></script>
+    <script type="module" src="app.js"></script>
+    <script>
+        let currentCategoryId = null;
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+
+        // URL-dən kateqoriya ID-sini al
+        const urlParams = new URLSearchParams(window.location.search);
+        currentCategoryId = parseInt(urlParams.get('id')) || 1;
+
+        // Bölmə məlumatlarını göstər
+        async function loadCategoryDetail() {
+            // Firebase-dən bölmə məlumatlarını al
+            // Şimdilik lokal məlumatlar istifadə edəcəyik
+            
+            const categories = [
+                { id: 1, name: "Oyun Yüklə", icon: "🎮", desc: "Ən yeni oyunları yükləyin", apiType: 'games' },
+                { id: 2, name: "PC Oyunlar", icon: "💻", desc: "Komputer oyunları", apiType: 'games' },
+                { id: 3, name: "Mobil Oyunlar", icon: "📱", desc: "Android oyunları", apiType: 'playstore' },
+                { id: 4, name: "YouTube", icon: "📺", desc: "YouTube videoları", apiType: 'youtube' },
+                { id: 5, name: "Instagram", icon: "📸", desc: "Instagram məlumatları", apiType: 'instagram' },
+                { id: 6, name: "Filmler", icon: "🎬", desc: "Film məlumatları", apiType: 'movies' },
+                { id: 7, name: "Musiqi", icon: "🎵", desc: "Spotify mahnıları", apiType: 'spotify' },
+                { id: 8, name: "Xəbərlər", icon: "📰", desc: "Günlük xəbərlər", apiType: 'news' },
+                { id: 9, name: "Kriptovalyuta", icon: "💎", desc: "Kripto məlumatları", apiType: 'crypto' },
+                { id: 10, name: "GitHub", icon: "🔓", desc: "Open Source proyeler", apiType: 'github' }
+            ];
+
+            const category = categories.find(c => c.id === currentCategoryId);
+            if (!category) {
+                document.getElementById('category-name').textContent = 'Bölmə tapılmadı';
+                return;
+            }
+
+            document.getElementById('category-name').textContent = category.name;
+            document.getElementById('category-desc').textContent = category.desc;
+
+            // Məlumatları yüklə
+            loadCategoryData(category.apiType);
+        }
+
+        // Bölmə məlumatlarını yüklə
+        async function loadCategoryData(apiType) {
+            isLoading = true;
+            const resultsContainer = document.getElementById('category-results');
+            
+            if (currentPage === 1) {
+                resultsContainer.innerHTML = '<div class="loading">Yüklənir...</div>';
+            }
+
+            try {
+                let data = [];
+                
+                switch(apiType) {
+                    case 'games':
+                        data = await getGamesData();
+                        break;
+                    case 'playstore':
+                        data = await getPlayStoreData();
+                        break;
+                    case 'youtube':
+                        data = await getYouTubeData();
+                        break;
+                    case 'movies':
+                        data = await getMoviesData();
+                        break;
+                    case 'news':
+                        data = await getNewsData();
+                        break;
+                    case 'crypto':
+                        data = await getCryptoData();
+                        break;
+                    case 'github':
+                        data = await getGitHubData();
+                        break;
+                    default:
+                        data = [];
+                }
+
+                if (data.length === 0 && currentPage === 1) {
+                    resultsContainer.innerHTML = '<div class="no-results">Məlumat tapılmadı</div>';
+                    hasMore = false;
+                    return;
+                }
+
+                if (currentPage === 1) {
+                    resultsContainer.innerHTML = '';
+                }
+
+                resultsContainer.innerHTML += data.map(item => `
+                    <div class="result-card">
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <a href="${item.link}" target="_blank">Ziyarət Et</a>
+                    </div>
+                `).join('');
+
+                currentPage++;
+                hasMore = data.length > 0;
+            } catch (error) {
+                console.error('Məlumatlar yüklənərkən xəta:', error);
+                resultsContainer.innerHTML = '<div class="no-results">Xəta baş verdi</div>';
+            }
+
+            isLoading = false;
+        }
+
+        // API funksiyaları
+        async function getGamesData() {
+            // Demo məlumatlar
+            return [
+                { title: 'Game 1', description: 'Açıklama 1', link: '#' },
+                { title: 'Game 2', description: 'Açıklama 2', link: '#' },
+                { title: 'Game 3', description: 'Açıklama 3', link: '#' }
+            ];
+        }
+
+        async function getPlayStoreData() {
+            return [
+                { title: 'App 1', description: 'Açıklama 1', link: '#' },
+                { title: 'App 2', description: 'Açıklama 2', link: '#' }
+            ];
+        }
+
+        async function getYouTubeData() {
+            return [
+                { title: 'Video 1', description: 'Açıklama 1', link: '#' },
+                { title: 'Video 2', description: 'Açıklama 2', link: '#' }
+            ];
+        }
+
+        async function getMoviesData() {
+            return [
+                { title: 'Film 1', description: 'Açıklama 1', link: '#' },
+                { title: 'Film 2', description: 'Açıklama 2', link: '#' }
+            ];
+        }
+
+        async function getNewsData() {
+            return [
+                { title: 'Xəbər 1', description: 'Açıklama 1', link: '#' },
+                { title: 'Xəbər 2', description: 'Açıklama 2', link: '#' }
+            ];
+        }
+
+        async function getCryptoData() {
+            return [
+                { title: 'Kripto 1', description: 'Açıklama 1', link: '#' },
+                { title: 'Kripto 2', description: 'Açıklama 2', link: '#' }
+            ];
+        }
+
+        async function getGitHubData() {
+            return [
+                { title: 'Proyekt 1', description: 'Açıklama 1', link: '#' },
+                { title: 'Proyekt 2', description: 'Açıklama 2', link: '#' }
+            ];
+        }
+
+        // Axtarış
+        function searchInCategory() {
+            const search = document.getElementById('category-search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.result-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const desc = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(search) || desc.includes(search)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Infinite scroll
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !isLoading && hasMore) {
+                loadCategoryData('games');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategoryDetail();
+            observer.observe(document.getElementById('infinite-scroll-trigger'));
+        });
+
+        window.searchInCategory = searchInCategory;
+    </script>
+</body>
+</html>
