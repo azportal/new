@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://azportal.github.io/new/</loc>
+    <lastmod>2026-03-10</lastmod>
+    <priority>1.00</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://azportal.github.io/new/index.html</loc>
+    <lastmod>2026-03-10</lastmod>
+    <priority>0.90</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://azportal.github.io/new/admin.html</loc>
+    <lastmod>2026-03-10</lastmod>
+    <priority>0.50</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://azportal.github.io/new/sitemap.html</loc>
+    <lastmod>2026-03-10</lastmod>
+    <priority>0.80</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+</urlset>
+
