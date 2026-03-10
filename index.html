@@ -7,22 +7,32 @@
     <meta name="google-site-verification" content="7KYCp6OVjOrZB_TTBfOI8X-d6JSOlyjRtp3NDhplsCY" />
     <meta name="google-site-verification" content="xd5sf4oz2nt6" />
     <meta name="yandex-verification" content="077145342cf7f4c9" />
-    <meta name="description" content="AzProWap - Oyunlar, Proqramlar, Texnologiya, Sifariş, Şərhlər və daha çox.">
-    <meta name="keywords" content="oyun yüklə, proqram indir, texnologiya, sifariş, şərhlər">
-    <title>AzProWap - Oyunlar, Proqramlar, Texnologiya</title>
+    <meta name="description" content="AzProWap - 80+ Bölmə, 100,000+ Məlumat, Oyunlar, Proqramlar, Texnologiya, Xəbərlər, Hava, Kripto">
+    <meta name="keywords" content="oyun, proqram, texnologiya, xəbər, hava, kripto, film, musiqi, sağlıq, idman, biznes, təhsil">
+    <title>AzProWap - 80+ Bölmə, 100,000+ Məlumat</title>
     <link rel="canonical" href="https://azportal.github.io/new/">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <select onchange="setLanguage(this.value)">
+            <option value="az">🇦🇿 Azərbaycanca</option>
+            <option value="tr">🇹🇷 Türkçe</option>
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="uk">🇺🇦 Українська</option>
+            <option value="ge">🇬🇪 ქართული</option>
+        </select>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="logo">🌟 AzProWap</div>
             <ul class="nav-menu">
                 <li><a href="index.html" class="active">Ana səhifə</a></li>
-                <li><a href="#categories">Kateqoriyalar</a></li>
-                <li><a href="#orders">Sifariş</a></li>
-                <li><a href="#comments">Şərhlər</a></li>
+                <li><a href="#categories">Bölmələr</a></li>
+                <li><a href="#trending">Trend</a></li>
                 <li><a href="admin.html" style="color: #f093fb;">🔐 Admin</a></li>
             </ul>
             <div class="hamburger">
@@ -36,84 +46,86 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Xoş gəlmisiniz AzProWap-a</h1>
-            <p>Oyunlar, Proqramlar, Texnologiya və daha çox</p>
+            <h1>AzProWap - 80+ Bölmə, 100,000+ Məlumat</h1>
+            <p>Oyunlar, Proqramlar, Texnologiya, Xəbərlər və daha çox</p>
             <div class="search-box">
-                <input type="text" id="search" placeholder="Axtarış edin...">
-                <button onclick="searchCategories()">Axtar</button>
+                <input type="text" id="global-search" placeholder="Axtarış edin...">
+                <button onclick="globalSearch()">Axtar</button>
             </div>
+        </div>
+    </section>
+
+    <!-- Visitor Info -->
+    <section class="info-section">
+        <div class="container">
+            <h2>Ziyarətçi Məlumatları</h2>
+            <div id="visitor-info"></div>
+        </div>
+    </section>
+
+    <!-- Weather -->
+    <section class="info-section">
+        <div class="container">
+            <h2>Hava</h2>
+            <div id="weather-info"></div>
         </div>
     </section>
 
     <!-- Ads Top -->
     <section class="ads-section">
         <div class="container">
-            <div id="ads-top" class="ads-area">
-                <p>Reklam Alanı (Üst)</p>
-            </div>
+            <div id="ads-top" class="ads-area">Reklam Alanı (Üst)</div>
         </div>
     </section>
 
     <!-- Categories Section -->
     <section id="categories" class="categories-section">
         <div class="container">
-            <h2>Kateqoriyalar</h2>
-            <div id="categories-grid" class="categories-grid">
-                <!-- Dinamik yüklənəcək -->
+            <h2>80+ Bölmə</h2>
+            <div class="category-tabs">
+                <button class="cat-tab active" onclick="filterCategory('all')">Hamısı</button>
+                <button class="cat-tab" onclick="filterCategory('games')">🎮 Oyunlar</button>
+                <button class="cat-tab" onclick="filterCategory('tech')">💻 Texnologiya</button>
+                <button class="cat-tab" onclick="filterCategory('programming')">⚙️ Proqramlaşdırma</button>
+                <button class="cat-tab" onclick="filterCategory('ai')">🤖 AI</button>
+                <button class="cat-tab" onclick="filterCategory('social')">📱 Sosial</button>
+                <button class="cat-tab" onclick="filterCategory('business')">💼 Biznes</button>
+                <button class="cat-tab" onclick="filterCategory('crypto')">💎 Kripto</button>
+                <button class="cat-tab" onclick="filterCategory('education')">📚 Təhsil</button>
+                <button class="cat-tab" onclick="filterCategory('health')">⚕️ Sağlıq</button>
+                <button class="cat-tab" onclick="filterCategory('sports')">⚽ İdman</button>
             </div>
+            <div id="categories-grid" class="categories-grid"></div>
         </div>
     </section>
 
     <!-- Ads Middle -->
     <section class="ads-section">
         <div class="container">
-            <div id="ads-middle" class="ads-area">
-                <p>Reklam Alanı (Orta)</p>
-            </div>
+            <div id="ads-middle" class="ads-area">Reklam Alanı (Orta)</div>
         </div>
     </section>
 
-    <!-- Orders Section -->
-    <section id="orders" class="orders-section">
+    <!-- Trending Section -->
+    <section id="trending" class="trending-section">
         <div class="container">
-            <h2>Sifariş Ver</h2>
-            <form id="order-form" class="order-form">
-                <input type="text" placeholder="Adınız" required>
-                <input type="email" placeholder="Email" required>
-                <input type="tel" placeholder="Telefon" required>
-                <textarea placeholder="Sifariş məlumatı" required></textarea>
-                <button type="submit">Sifariş Ver</button>
-            </form>
-            <h3>Göndərilən Sifarişlər</h3>
-            <div id="orders-list" class="orders-list">
-                <!-- Sifarişlər göstəriləcək -->
-            </div>
+            <h2>🔥 Trend Məlumatlar</h2>
+            <div id="trending-content" class="trending-grid"></div>
         </div>
     </section>
 
     <!-- Ads Bottom -->
     <section class="ads-section">
         <div class="container">
-            <div id="ads-bottom" class="ads-area">
-                <p>Reklam Alanı (Alt)</p>
-            </div>
+            <div id="ads-bottom" class="ads-area">Reklam Alanı (Alt)</div>
         </div>
     </section>
 
-    <!-- Comments Section -->
-    <section id="comments" class="comments-section">
+    <!-- News Section -->
+    <section class="news-section">
         <div class="container">
-            <h2>Şərhlər / Qonaq Kitabı</h2>
-            <form id="comment-form" class="comment-form">
-                <input type="text" id="comment-name" placeholder="Adınız" required>
-                <input type="email" id="comment-email" placeholder="Email" required>
-                <textarea id="comment-text" placeholder="Şərhiniz..." required></textarea>
-                <button type="submit">Şərh Göndər</button>
-            </form>
-            <h3>Şərhlər</h3>
-            <div id="comments-list" class="comments-list">
-                <!-- Şərhlər göstəriləcək -->
-            </div>
+            <h2>📰 Günlük Xəbərlər</h2>
+            <div id="news-content" class="news-grid"></div>
         </div>
     </section>
 
@@ -127,19 +139,15 @@
         </div>
     </footer>
 
-    <!-- Tawk.to Chat -->
-    <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/69af642dddd7fc1c34853e3f/1i0n8bnqm';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
+    <!-- Chat Bot -->
+    <div id="chat-bot"></div>
 
+    <script src="i18n.js"></script>
+    <script src="visitor-info.js"></script>
+    <script src="weather.js"></script>
+    <script src="news.js"></script>
+    <script src="chat-bot.js"></script>
+    <script src="api-integration.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
